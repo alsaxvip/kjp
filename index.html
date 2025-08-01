@@ -153,7 +153,7 @@
 
         <section id="login-section">
             <input type="text" id="nik-input" placeholder="Masukkan NIK">
-            <button id="search-button">Cari Nilai</button>
+            <button id="search-button">Cari</button>
             <p id="error-message" style="color: var(--red); margin-top: 10px;" class="hidden"></p>
         </section>
 
@@ -163,10 +163,13 @@
 
         <section id="student-info" class="hidden">
             <div class="info-item">
-                <strong>NAMA LENGKAP:</strong> <span id="student-name"></span>
+                <strong>TIMESTAMP:</strong> <span id="student-name"></span>
             </div>
             <div class="info-item">
                 <strong>NIK:</strong> <span id="student-nik"></span>
+            </div>
+            <div class="info-item">
+                <strong>NAMA:</strong> <span id="student-name"></span>
             </div>
             <div class="info-item">
                 <strong>KELAS:</strong> <span id="student-class"></span>
@@ -178,8 +181,8 @@
             <table id="grades-table">
                 <thead>
                     <tr>
-                        <th>ASPEK PENILAIAN</th>
-                        <th>NILAI</th>
+                        <th>ASPEK</th>
+                        <th>DATA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -209,8 +212,8 @@
         // Mapping for assessment aspects and their corresponding column indices (0-indexed)
         // Assuming columns A-D for student info, E onwards for grades
         const assessmentAspects = [
-    { label: 'Kolom E', colIndex: 4 },
-    { label: 'Kolom F', colIndex: 5 },
+    { label: 'NOMOR KARTU KELUARGA SISWA', colIndex: 4 },
+    { label: 'JENIS KELAMIN SISWA', colIndex: 5 },
     { label: 'Kolom G', colIndex: 6 },
     { label: 'Kolom H', colIndex: 7 },
     { label: 'Kolom I', colIndex: 8 },
