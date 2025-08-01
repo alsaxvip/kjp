@@ -163,13 +163,13 @@
 
         <section id="student-info" class="hidden">
             <div class="info-item">
-                <strong>NAMA LENGKAP:</strong> <span id="student-name"></span>
+                <strong>NAMA LENGKAP: </strong> <span id="student-name"></span>
             </div>
             <div class="info-item">
-                <strong>NIK:</strong> <span id="student-nisn"></span>
+                <strong>NIK: </strong> <span id="student-nik"></span>
             </div>
             <div class="info-item">
-                <strong>KELAS:</strong> <span id="student-class"></span>
+                <strong>KELAS: </strong> <span id="student-class"></span>
             </div>
         </section>
 
@@ -203,38 +203,75 @@
         const studentName = document.getElementById('student-name');
         const studentNik = document.getElementById('student-nik');
         const studentClass = document.getElementById('student-class');
-        const studentPredicate = document.getElementById('student-predicate');
-
+        
         // Mapping for assessment aspects and their corresponding column indices (0-indexed)
         // Assuming columns A-D for student info, E onwards for grades
         const assessmentAspects = [
-            { label: 'NOMOR KARTU KELUARGA SISWA', colIndex: 4 },
-            { label: 'JENIS KELAMIN SISWA', colIndex: 5 },
-            { label: 'TEMPAT LAHIR SISWA', colIndex: 6 },
-            { label: 'TANGGAL LAHIR SISWA', colIndex: 7 },
-            { label: 'NAMA IBU KANDUNG SISWA', colIndex: 8 },
-            { label: 'ALAMAT SISWA', colIndex: 9 },
-            { label: 'RT SISWA', colIndex: 10 },
-            { label: 'RW SISWA', colIndex: 11 },
-            { label: 'KOTA SISWA', colIndex: 12 },
-            { label: 'KECAMATAN SISWA', colIndex: 13 },
-            { label: 'KELURAHAN SISWA', colIndex: 14 },
-            { label: 'KODE POS SISWA', colIndex: 15 },
-            { label: 'KELAS SISWA', colIndex: 16 },
-            { label: 'NISN SISWA', colIndex: 17 },
-            { label: 'NO. HP SISWA', colIndex: 18 },
-            { label: 'ALAMAT SURAT SISWA', colIndex: 19 },
-            { label: 'TIPE ALAMAT SISWA', colIndex: 20 },
-            { label: 'STATUS TEMPAT TINGGAL SISWA', colIndex: 21 },
-            { label: 'AGAMA SISWA', colIndex: 22 },
-            { label: 'I. DATA PRIBADI SISWA', colIndex: 23 },
-            { label: 'NAMA WALI', colIndex: 24 },
-            { label: 'NIK WALI', colIndex: 25 },
-            { label: 'NO. KK WALI', colIndex: 26 },
-            { label: 'TEMPAT LAHIR WALI', colIndex: 27 },
-            { label: 'TANGGAL LAHIR WALI', colIndex: 28 },
-            { label: 'JENIS KELAMIN WALI', colIndex: 29 },
-            { label: 'AGAMA WALI', colIndex: 30 },
+            { label: 'NOMOR KARTU KELUARGA SISWA', colIndex: 3 },
+            { label: 'JENIS KELAMIN SISWA', colIndex: 4 },
+            { label: 'TEMPAT LAHIR SISWA', colIndex: 5 },
+            { label: 'TANGGAL LAHIR SISWA', colIndex: 6 },
+            { label: 'NAMA IBU KANDUNG SISWA', colIndex: 7 },
+            { label: 'ALAMAT SISWA', colIndex: 8 },
+            { label: 'RT SISWA', colIndex: 9 },
+            { label: 'RW SISWA', colIndex: 10 },
+            { label: 'KOTA SISWA', colIndex: 11 },
+            { label: 'KECAMATAN SISWA', colIndex: 12 },
+            { label: 'KELURAHAN SISWA', colIndex: 13 },
+            { label: 'KODE POS SISWA', colIndex: 14 },
+            { label: 'KELAS SISWA', colIndex: 15 },
+            { label: 'NISN SISWA', colIndex: 16 },
+            { label: 'NO. HP SISWA', colIndex: 17 },
+            { label: 'ALAMAT SURAT SISWA', colIndex: 18 },
+            { label: 'TIPE ALAMAT SISWA', colIndex: 19 },
+            { label: 'STATUS TEMPAT TINGGAL SISWA', colIndex: 20 },
+            { label: 'AGAMA SISWA', colIndex: 21 },
+            { label: 'I. DATA PRIBADI SISWA', colIndex: 22 },
+            { label: 'NAMA WALI', colIndex: 23 },
+            { label: 'NIK WALI', colIndex: 24 },
+            { label: 'NO. KK WALI', colIndex: 25 },
+            { label: 'TEMPAT LAHIR WALI', colIndex: 26 },
+            { label: 'TANGGAL LAHIR WALI', colIndex: 27 },
+            { label: 'JENIS KELAMIN WALI', colIndex: 28 },
+            { label: 'AGAMA WALI', colIndex: 29 },
+            { label: 'PEKERJAAN WALI', colIndex: 30 },
+            { label: 'NAMA IBU KANDUNG WALI (LIHAT FORMULIR DATA WALI NOMOR 11)', colIndex: 31 },
+            { label: 'STATUS PERNIKAHAN WALI', colIndex: 32 },
+            { label: 'PENDIDIKAN TERAKHIR WALI', colIndex: 33 },
+            { label: 'JABATAN WALI', colIndex: 34 },
+            { label: 'ALAMAT WALI', colIndex: 35 },
+            { label: 'RT WALI', colIndex: 36 },
+            { label: 'RW WALI', colIndex: 37 },
+            { label: 'KOTA WALI', colIndex: 38 },
+            { label: 'KECAMATAN WALI', colIndex: 39 },
+            { label: 'KELURAHAN WALI', colIndex: 40 },
+            { label: 'KODE POS WALI', colIndex: 41 },
+            { label: 'STATUS TEMPAT TINGGAL WALI', colIndex: 42 },
+            { label: 'NOMOR HP WALI', colIndex: 43 },
+            { label: 'TIPE ALAMAT WALI', colIndex: 44 },
+            { label: 'II. DATA WALI', colIndex: 45 },
+            { label: 'NAMA SELAIN WALI', colIndex: 46 },
+            { label: 'NIK KONTAK DARURAT', colIndex: 47 },
+            { label: 'HUBUNGAN', colIndex: 48 },
+            { label: 'ALAMAT KONTAK DARURAT', colIndex: 49 },
+            { label: 'RT KONTAK DARURAT', colIndex: 50 },
+            { label: 'RW KONTAK DARURAT', colIndex: 51 },
+            { label: 'PROVINSI', colIndex: 52 },
+            { label: 'KOTA KONTAK DARURAT', colIndex: 53 },
+            { label: 'KECAMATAN KONTAK DARURAT', colIndex: 54 },
+            { label: 'KELURAHAN KONTAK DARURAT', colIndex: 55 },
+            { label: 'KODE POS KONTAK DARURAT', colIndex: 56 },
+            { label: 'NOMOR HP KONTAK DARURAT', colIndex: 57 },
+            { label: 'III. KONTAK DARURAT', colIndex: 58 },
+            { label: 'SURAT PERMOHONAN  BANTUAN SOSIAL BIAYA PENDIDIKAN', colIndex: 59 },
+            { label: 'SURAT PERNYATAAN KETAATAN PENGGUNAAN KJP', colIndex: 60 },
+            { label: 'SURAT KUASA', colIndex: 61 },
+            { label: 'BERITA ACARA KELAYAKAN', colIndex: 62 },
+            { label: 'SURAT PERNYATAAN', colIndex: 63 },
+            { label: 'KTP WALI SESUAI BUKU TABUNGAN', colIndex: 64 },
+            { label: 'NOMOR REKENING DI BUKU TABUNGAN', colIndex: 65 },
+            { label: 'KARTU KELUARGA', colIndex: 66 },
+            { label: 'KTP KONTAK DARURAT', colIndex: 67 },
         ];
 
         async function fetchCSVData() {
