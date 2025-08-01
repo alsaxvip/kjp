@@ -174,7 +174,18 @@
             
         </section>
 
-        
+        <section id="grades-section" class="hidden">
+            <table id="grades-table">
+                <thead>
+                    <tr>
+                        <th>ASPEK PENILAIAN</th>
+                        <th>NILAI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </section>
     </div>
 
     <script>
@@ -195,7 +206,134 @@
         const studentClass = document.getElementById('student-class');
         const studentPredicate = document.getElementById('student-predicate');
 
-        
+        // Mapping for assessment aspects and their corresponding column indices (0-indexed)
+        // Assuming columns A-D for student info, E onwards for grades
+        const assessmentAspects = [
+    { label: 'Kolom E', colIndex: 4 },
+    { label: 'Kolom F', colIndex: 5 },
+    { label: 'Kolom G', colIndex: 6 },
+    { label: 'Kolom H', colIndex: 7 },
+    { label: 'Kolom I', colIndex: 8 },
+    { label: 'Kolom J', colIndex: 9 },
+    { label: 'Kolom K', colIndex: 10 },
+    { label: 'Kolom L', colIndex: 11 },
+    { label: 'Kolom M', colIndex: 12 },
+    { label: 'Kolom N', colIndex: 13 },
+    { label: 'Kolom O', colIndex: 14 },
+    { label: 'Kolom P', colIndex: 15 },
+    { label: 'Kolom Q', colIndex: 16 },
+    { label: 'Kolom R', colIndex: 17 },
+    { label: 'Kolom S', colIndex: 18 },
+    { label: 'Kolom T', colIndex: 19 },
+    { label: 'Kolom U', colIndex: 20 },
+    { label: 'Kolom V', colIndex: 21 },
+    { label: 'Kolom W', colIndex: 22 },
+    { label: 'Kolom X', colIndex: 23 },
+    { label: 'Kolom Y', colIndex: 24 },
+    { label: 'Kolom Z', colIndex: 25 },
+    { label: 'Kolom AA', colIndex: 26 },
+    { label: 'Kolom AB', colIndex: 27 },
+    { label: 'Kolom AC', colIndex: 28 },
+    { label: 'Kolom AD', colIndex: 29 },
+    { label: 'Kolom AE', colIndex: 30 },
+    { label: 'Kolom AF', colIndex: 31 },
+    { label: 'Kolom AG', colIndex: 32 },
+    { label: 'Kolom AH', colIndex: 33 },
+    { label: 'Kolom AI', colIndex: 34 },
+    { label: 'Kolom AJ', colIndex: 35 },
+    { label: 'Kolom AK', colIndex: 36 },
+    { label: 'Kolom AL', colIndex: 37 },
+    { label: 'Kolom AM', colIndex: 38 },
+    { label: 'Kolom AN', colIndex: 39 },
+    { label: 'Kolom AO', colIndex: 40 },
+    { label: 'Kolom AP', colIndex: 41 },
+    { label: 'Kolom AQ', colIndex: 42 },
+    { label: 'Kolom AR', colIndex: 43 },
+    { label: 'Kolom AS', colIndex: 44 },
+    { label: 'Kolom AT', colIndex: 45 },
+    { label: 'Kolom AU', colIndex: 46 },
+    { label: 'Kolom AV', colIndex: 47 },
+    { label: 'Kolom AW', colIndex: 48 },
+    { label: 'Kolom AX', colIndex: 49 },
+    { label: 'Kolom AY', colIndex: 50 },
+    { label: 'Kolom AZ', colIndex: 51 },
+    { label: 'Kolom BA', colIndex: 52 },
+    { label: 'Kolom BB', colIndex: 53 },
+    { label: 'Kolom BC', colIndex: 54 },
+    { label: 'Kolom BD', colIndex: 55 },
+    { label: 'Kolom BE', colIndex: 56 },
+    { label: 'Kolom BF', colIndex: 57 },
+    { label: 'Kolom BG', colIndex: 58 },
+    { label: 'Kolom BH', colIndex: 59 },
+    { label: 'Kolom BI', colIndex: 60 },
+    { label: 'Kolom BJ', colIndex: 61 },
+    { label: 'Kolom BK', colIndex: 62 },
+    { label: 'Kolom BL', colIndex: 63 },
+    { label: 'Kolom BM', colIndex: 64 },
+    { label: 'Kolom BN', colIndex: 65 },
+    { label: 'Kolom BO', colIndex: 66 },
+    { label: 'Kolom BP', colIndex: 67 },
+    { label: 'Kolom BQ', colIndex: 68 },
+];
+
+        async function fetchCSVData() {
+            loadingSection.classList.remove('hidden');
+            try {
+                const response = await fetch(CSV_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const csvText = await response.text();
+                parseCSV(csvText);
+            } catch (error) {
+                console.error('Error fetching CSV:', error);
+                errorMessage.textContent = 'Gagal memuat data nilai. Silakan coba lagi nanti.';
+                errorMessage.classList.remove('hidden');
+            } finally {
+                loadingSection.classList.add('hidden');
+            }
+        }
+
+        function parseCSV(csv) {
+            const lines = csv.split('\n').filter(line => line.trim() !== ''); // Filter out empty lines
+            if (lines.length < 2) {
+                errorMessage.textContent = 'Data CSV tidak valid (kurang dari 2 baris).';
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+
+            const headers = lines[0].split(','); // Row 1 is header
+            studentData = [];
+            for (let i = 1; i < lines.length; i++) { // Row 2 onwards are data
+                const values = lines[i].split(',');
+                if (values.length >= 21) { // Ensure enough columns
+                    studentData.push({
+                        'NAMA LENGKAP': values[0].trim(),
+                        'NIK': values[1].trim(),
+                        'KELAS': values[2].trim(),
+                        'PREDIKAT': values[3].trim(),
+                        'grades': values.slice(4).map(val => val.trim()) // Grades start from column E (index 4)
+                    });
+                }
+            }
+            console.log('Parsed Student Data:', studentData);
+        }
+
+        function displayStudentGrades(nisn) {
+            const student = studentData.find(s => s.NIK === nisn);
+
+            if (student) {
+                errorMessage.classList.add('hidden');
+                studentInfoSection.classList.remove('hidden');
+                gradesSection.classList.remove('hidden');
+
+                studentName.textContent = student['NAMA LENGKAP'];
+                studentNisn.textContent = student.NIK;
+                studentClass.textContent = student.KELAS;
+                studentPredicate.textContent = student.PREDIKAT;
+
+                gradesTableBody.innerHTML = ''; // Clear previous data
+
                 assessmentAspects.forEach(aspect => {
                     const row = gradesTableBody.insertRow();
                     const aspectCell = row.insertCell();
@@ -229,6 +367,7 @@
                 });
             } else {
                 studentInfoSection.classList.add('hidden');
+                gradesSection.classList.add('hidden');
                 errorMessage.textContent = 'NIK tidak ditemukan. Pastikan NIK yang dimasukkan benar.';
                 errorMessage.classList.remove('hidden');
             }
@@ -242,7 +381,8 @@
                 errorMessage.textContent = 'Silakan masukkan NIK.';
                 errorMessage.classList.remove('hidden');
                 studentInfoSection.classList.add('hidden');
-                }
+                gradesSection.classList.add('hidden');
+            }
         });
 
         // Fetch data when the page loads
