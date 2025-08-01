@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NILAI MATEMATIKA</title>
+    <title>KJP</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -148,12 +148,12 @@
     <div class="container">
         <header>
             <img src="https://iili.io/FqqmPFp.png" alt="Logo Sekolah">
-            <h1>NILAI MATEMATIKA</h1>
+            <h1>KJP</h1>
         </header>
 
         <section id="login-section">
-            <input type="text" id="nisn-input" placeholder="Masukkan NISN">
-            <button id="search-button">Cari Nilai</button>
+            <input type="text" id="nik-input" placeholder="Masukkan NIK Siswa">
+            <button id="search-button">Cari Data</button>
             <p id="error-message" style="color: var(--red); margin-top: 10px;" class="hidden"></p>
         </section>
 
@@ -166,13 +166,10 @@
                 <strong>NAMA LENGKAP:</strong> <span id="student-name"></span>
             </div>
             <div class="info-item">
-                <strong>NISN:</strong> <span id="student-nisn"></span>
+                <strong>NIK:</strong> <span id="student-nisn"></span>
             </div>
             <div class="info-item">
                 <strong>KELAS:</strong> <span id="student-class"></span>
-            </div>
-            <div class="info-item">
-                <strong>PREDIKAT:</strong> <span id="student-predicate"></span>
             </div>
         </section>
 
@@ -180,8 +177,8 @@
             <table id="grades-table">
                 <thead>
                     <tr>
-                        <th>ASPEK PENILAIAN</th>
-                        <th>NILAI</th>
+                        <th>ASPEK</th>
+                        <th>DATA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -191,10 +188,10 @@
     </div>
 
     <script>
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRs-RK5zrgpKBUJAKD6pCXmLAfqWgHDSyzY9rgAJMFnvzyO-iyyFRlqVKnhUQQlzJp_pPAAbJFQljX_/pub?gid=1829383988&single=true&output=csv';
+        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmFJy40juacRyEF6j_PzpVrGTcd7PB6pWi5Gias-i1BB86pi08PJPSXJLyte_WypfLBk4lGqI0B_QX/pub?gid=826097722&single=true&output=csv';
         let studentData = [];
 
-        const nisnInput = document.getElementById('nisn-input');
+        const nikInput = document.getElementById('nik-input');
         const searchButton = document.getElementById('search-button');
         const loadingSection = document.getElementById('loading');
         const studentInfoSection = document.getElementById('student-info');
@@ -204,30 +201,40 @@
 
         // Student Info elements
         const studentName = document.getElementById('student-name');
-        const studentNisn = document.getElementById('student-nisn');
+        const studentNik = document.getElementById('student-nik');
         const studentClass = document.getElementById('student-class');
         const studentPredicate = document.getElementById('student-predicate');
 
         // Mapping for assessment aspects and their corresponding column indices (0-indexed)
         // Assuming columns A-D for student info, E onwards for grades
         const assessmentAspects = [
-            { label: 'LKS BAB 1', colIndex: 4 },
-            { label: 'LKS BAB 2', colIndex: 5 },
-            { label: 'LKS BAB 3', colIndex: 6 },
-            { label: 'CATATAN TUGAS BAB 1', colIndex: 7 },
-            { label: 'CATATAN TUGAS BAB 2', colIndex: 8 },
-            { label: 'CATATAN TUGAS BAB 3', colIndex: 9 },
-            { label: 'KETERAMPILAN BAB 1', colIndex: 10 },
-            { label: 'KETERAMPILAN BAB 2', colIndex: 11 },
-            { label: 'KETERAMPILAN BAB 3', colIndex: 12 },
-            { label: 'ATS LKS', colIndex: 13 },
-            { label: 'ATS ASLI', colIndex: 14 },
-            { label: 'ATS PERBAIKAN 25 SOAL', colIndex: 15 },
-            { label: 'AAS LKS', colIndex: 16 },
-            { label: 'AAS ASLI', colIndex: 17 },
-            { label: 'PENILAIAN HARIAN', colIndex: 18, highlight: 'yellow' },
-            { label: 'NILAI AKHIR ATS', colIndex: 19, highlight: 'yellow' },
-            { label: 'NILAI AKHIR AAS', colIndex: 20, highlight: 'yellow' }
+            { label: 'NOMOR KARTU KELUARGA SISWA', colIndex: 4 },
+            { label: 'JENIS KELAMIN SISWA', colIndex: 5 },
+            { label: 'TEMPAT LAHIR SISWA', colIndex: 6 },
+            { label: 'TANGGAL LAHIR SISWA', colIndex: 7 },
+            { label: 'NAMA IBU KANDUNG SISWA', colIndex: 8 },
+            { label: 'ALAMAT SISWA', colIndex: 9 },
+            { label: 'RT SISWA', colIndex: 10 },
+            { label: 'RW SISWA', colIndex: 11 },
+            { label: 'KOTA SISWA', colIndex: 12 },
+            { label: 'KECAMATAN SISWA', colIndex: 13 },
+            { label: 'KELURAHAN SISWA', colIndex: 14 },
+            { label: 'KODE POS SISWA', colIndex: 15 },
+            { label: 'KELAS SISWA', colIndex: 16 },
+            { label: 'NISN SISWA', colIndex: 17 },
+            { label: 'NO. HP SISWA', colIndex: 18 },
+            { label: 'ALAMAT SURAT SISWA', colIndex: 19 },
+            { label: 'TIPE ALAMAT SISWA', colIndex: 20 },
+            { label: 'STATUS TEMPAT TINGGAL SISWA', colIndex: 21 },
+            { label: 'AGAMA SISWA', colIndex: 22 },
+            { label: 'I. DATA PRIBADI SISWA', colIndex: 23 },
+            { label: 'NAMA WALI', colIndex: 24 },
+            { label: 'NIK WALI', colIndex: 25 },
+            { label: 'NO. KK WALI', colIndex: 26 },
+            { label: 'TEMPAT LAHIR WALI', colIndex: 27 },
+            { label: 'TANGGAL LAHIR WALI', colIndex: 28 },
+            { label: 'JENIS KELAMIN WALI', colIndex: 29 },
+            { label: 'AGAMA WALI', colIndex: 30 },
         ];
 
         async function fetchCSVData() {
@@ -241,7 +248,7 @@
                 parseCSV(csvText);
             } catch (error) {
                 console.error('Error fetching CSV:', error);
-                errorMessage.textContent = 'Gagal memuat data nilai. Silakan coba lagi nanti.';
+                errorMessage.textContent = 'Gagal memuat data data. Silakan coba lagi nanti.';
                 errorMessage.classList.remove('hidden');
             } finally {
                 loadingSection.classList.add('hidden');
@@ -260,10 +267,10 @@
             studentData = [];
             for (let i = 1; i < lines.length; i++) { // Row 2 onwards are data
                 const values = lines[i].split(',');
-                if (values.length >= 21) { // Ensure enough columns
+                if (values.length >= 68) { // Ensure enough columns
                     studentData.push({
                         'NAMA LENGKAP': values[0].trim(),
-                        'NISN': values[1].trim(),
+                        'NIK': values[1].trim(),
                         'KELAS': values[2].trim(),
                         'PREDIKAT': values[3].trim(),
                         'grades': values.slice(4).map(val => val.trim()) // Grades start from column E (index 4)
@@ -274,7 +281,7 @@
         }
 
         function displayStudentGrades(nisn) {
-            const student = studentData.find(s => s.NISN === nisn);
+            const student = studentData.find(s => s.NIK === nik);
 
             if (student) {
                 errorMessage.classList.add('hidden');
